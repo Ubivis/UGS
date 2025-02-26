@@ -15,6 +15,24 @@
         <java.version>17</java.version>
     </properties>
 
+    <repositories>
+        <!-- Paper API Repository -->
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <!-- Mojang Brigadier Repository -->
+        <repository>
+            <id>mojang</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+        <!-- MD-5 Repository (for BungeeCord) -->
+        <repository>
+            <id>md-5</id>
+            <url>https://repo.md-5.net/content/groups/public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- Paper API -->
         <dependency>
