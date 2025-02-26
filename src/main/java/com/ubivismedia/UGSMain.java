@@ -12,7 +12,6 @@ public class UGSMain extends JavaPlugin {
     
     @Override
     public void onEnable() {
-        saveDefaultConfig();
         this.extensionManager = new ExtensionManager(this);
         
         registerCommands();
