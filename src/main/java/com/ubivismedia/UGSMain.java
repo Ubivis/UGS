@@ -12,7 +12,6 @@ public class UGSMain extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
         this.extensionManager = new ExtensionManager(this);
 
         registerCommands();
@@ -29,11 +28,11 @@ public class UGSMain extends JavaPlugin {
     }
 
     private void registerCommands() {
-        if (getCommand("ugs") != null) {
-            getCommand("ugs").setExecutor(new UGSCommand(extensionManager));
-        }
-        if (getCommand("ugsreload") != null) {
-            getCommand("ugsreload").setExecutor(new ReloadCommand(extensionManager));
-        }
+        getServer().getCommandMap().register("ugs", new UGSCommand(extensionManager));
+        getServer().getCommandMap().register("ugsreload", new ReloadCommand(extensionManager));
     }
+    if (getCommand("ugsreload") != null) {
+        getCommand("ugsreload").setExecutor(new ReloadCommand(extensionManager));
+    }
+}
 }
