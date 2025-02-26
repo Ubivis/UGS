@@ -4,7 +4,6 @@ import com.ubivismedia.command.UGSCommand;
 import com.ubivismedia.command.ReloadCommand;
 import com.ubivismedia.extension.ExtensionManager;
 
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UGSMain extends JavaPlugin {
@@ -28,11 +27,17 @@ public class UGSMain extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getServer().getCommandMap().register("ugs", new UGSCommand(extensionManager));
-        getServer().getCommandMap().register("ugsreload", new ReloadCommand(extensionManager));
+        if (getCommand("ugs") != null) {
+            getCommand("ugs").setExecutor(new UGSCommand(extensionManager));
+        } else {
+            getLogger().severe("Command 'ugs' was not found! Ensure it is registered in plugin.yml.");
+        }
+
+        if (getCommand("ugsreload") != null) {
+            getCommand("ugsreload").setExecutor(new ReloadCommand(extensionManager));
+        } else {
+            getLogger().severe("Command 'ugsreload' was not found! Ensure it is registered in plugin.yml.");
+        }
     }
-    if (getCommand("ugsreload") != null) {
-        getCommand("ugsreload").setExecutor(new ReloadCommand(extensionManager));
-    }
-}
+
 }
