@@ -1,0 +1,30 @@
+name: UGS
+version: 1.0
+main: com.ubivismedia.UGSMain
+api-version: 1.21
+
+authors:
+  - UbivisMedia
+
+description: A modular plugin providing an extension system for Minecraft servers.
+website: https://github.com/Ubivis/UGS
+
+commands:
+  ugs:
+    description: Executes an installed extension.
+    usage: /ugs <extension> <parameters>
+    permission: ugs.use
+
+  ugs reload:
+    description: Reloads all extensions.
+    usage: /ugs reload
+    permission: ugs.admin
+
+permissions:
+  ugs.use:
+    description: Allows a player to use the UGS extension system.
+    default: true
+
+  ugs.admin:
+    description: Allows a player to reload the extensions.
+    default: op
