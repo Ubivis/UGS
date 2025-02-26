@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ubivismedia</groupId>
-    <artifactId>UGS</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>ugs</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>UGS Plugin</name>
