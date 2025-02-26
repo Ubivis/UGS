@@ -15,7 +15,7 @@ public class ReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         extensionManager.reloadExtensions();
-        sender.sendMessage("§aAlle Extensions wurden neu geladen.");
+        sender.sendMessage("§aAll extensions have been loaded.");
         return true;
     }
 }

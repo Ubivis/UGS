@@ -15,7 +15,7 @@ public class UGSCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage("§cBitte eine Extension angeben.");
+            sender.sendMessage("§cPlease state an extension command.");
             return true;
         }
 

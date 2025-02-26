@@ -12,8 +12,5 @@ public class ExtensionClassLoader {
     public void loadExtension(File jarFile) throws Exception {
         URL url = jarFile.toURI().toURL();
         URLClassLoader classLoader = new URLClassLoader(new URL[]{url}, this.getClass().getClassLoader());
-
-        // Load main class from the JAR (assuming it has a predefined entry class)
-        // This should be configurable or read from a manifest
     }
 }

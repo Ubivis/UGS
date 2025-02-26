@@ -41,12 +41,12 @@ public class ExtensionManager {
                     if (ExtensionInterface.class.isAssignableFrom(clazz)) {
                         ExtensionInterface extension = (ExtensionInterface) clazz.getDeclaredConstructor().newInstance();
                         extensions.put(extension.getName(), extension);
-                        plugin.getLogger().info("[UGS] Geladene Extension: " + extension.getName() + " (" + className + ")");
+                        plugin.getLogger().info("[UGS] Loaded Extension: " + extension.getName() + " (" + className + ")");
                         break; // Falls eine gültige Klasse gefunden wurde, breche die Schleife ab
                     }
                 }
             } catch (Exception e) {
-                plugin.getLogger().severe("[UGS] Fehler beim Laden der Extension: " + file.getName());
+                plugin.getLogger().severe("[UGS] Error while loading extension: " + file.getName());
                 e.printStackTrace();
             }
         }
@@ -55,7 +55,7 @@ public class ExtensionManager {
 
     public void unloadExtensions() {
         extensions.clear();
-        plugin.getLogger().info("Alle Extensions wurden entladen.");
+        plugin.getLogger().info("All extensions stopped.");
     }
 
     public void reloadExtensions() {
