@@ -2,10 +2,17 @@ package com.ubivismedia.extension;
 
 import com.ubivismedia.UGSMain;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
 
 public class ExtensionManager {
     private final UGSMain plugin;
@@ -27,17 +34,24 @@ public class ExtensionManager {
         for (File file : files) {
             try {
                 URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, plugin.getClass().getClassLoader());
-                Class<?> clazz = classLoader.loadClass("com.ubivismedia.extension.ExtensionImplementation");
-                if (ExtensionInterface.class.isAssignableFrom(clazz)) {
-                    ExtensionInterface extension = (ExtensionInterface) clazz.getDeclaredConstructor().newInstance();
-                    extensions.put(extension.getName(), extension);
-                    plugin.getLogger().info("Geladene Extension: " + extension.getName());
+
+                // Finde die Klasse in der JAR, die ExtensionInterface implementiert
+                for (String className : getClassNamesFromJar(file)) {
+                    Class<?> clazz = classLoader.loadClass(className);
+                    if (ExtensionInterface.class.isAssignableFrom(clazz)) {
+                        ExtensionInterface extension = (ExtensionInterface) clazz.getDeclaredConstructor().newInstance();
+                        extensions.put(extension.getName(), extension);
+                        plugin.getLogger().info("[UGS] Geladene Extension: " + extension.getName() + " (" + className + ")");
+                        break; // Falls eine gültige Klasse gefunden wurde, breche die Schleife ab
+                    }
                 }
             } catch (Exception e) {
-                plugin.getLogger().severe("Fehler beim Laden der Extension: " + file.getName());
+                plugin.getLogger().severe("[UGS] Fehler beim Laden der Extension: " + file.getName());
+                e.printStackTrace();
             }
         }
     }
+
 
     public void unloadExtensions() {
         extensions.clear();
@@ -55,5 +69,29 @@ public class ExtensionManager {
             return "§cExtension nicht gefunden: " + name;
         }
         return extension.execute(params);
+    }
+
+    public List<String> getClassNamesFromJar(File jarFile) {
+        List<String> classNames = new ArrayList<>();
+
+        try (JarFile jar = new JarFile(jarFile)) {
+            Enumeration<JarEntry> entries = jar.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                if (entry.getName().endsWith(".class")) {
+                    // Konvertiere den JAR-Pfad in einen echten Klassennamen
+                    String className = entry.getName()
+                            .replace("/", ".")  // Pfadtrennzeichen zu Paketnamen ändern
+                            .replace("\\", ".") // Für Windows
+                            .replace(".class", ""); // Entferne ".class"
+                    classNames.add(className);
+                }
+            }
+        } catch (IOException e) {
+            plugin.getLogger().severe("[UGS] Fehler beim Lesen der JAR-Datei: " + jarFile.getName());
+            e.printStackTrace();
+        }
+
+        return classNames;
     }
 }
