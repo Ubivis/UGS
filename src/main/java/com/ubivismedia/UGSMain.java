@@ -1,11 +1,10 @@
 package com.ubivismedia;
 
-import com.ubivismedia.command.*;
+import com.ubivismedia.command.UGSCommand;
+import com.ubivismedia.command.ReloadCommand;
 import com.ubivismedia.extension.ExtensionManager;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UGSMain extends JavaPlugin {
@@ -16,18 +15,21 @@ public class UGSMain extends JavaPlugin {
         saveDefaultConfig();
         this.extensionManager = new ExtensionManager(this);
         
-        getCommand("ugs").setExecutor(new UGSCommand(extensionManager));
-        getCommand("ugs reload").setExecutor(new ReloadCommand(extensionManager));
+        registerCommands();
         
         extensionManager.loadExtensions();
         
-        getLogger().info("UGS Plugin activated!");
+        getLogger().info("UGS Plugin aktiviert!");
     }
     
     @Override
     public void onDisable() {
         extensionManager.unloadExtensions();
-        getLogger().info("UGS Plugin deactivated!");
+        getLogger().info("UGS Plugin deaktiviert!");
+    }
+    
+    private void registerCommands() {
+        PluginCommand ugsCommand = getServer().getCommandMap().register("ugs", new UGSCommand(extensionManager));
+        PluginCommand reloadCommand = getServer().getCommandMap().register("ugsreload", new ReloadCommand(extensionManager));
     }
 }
-
